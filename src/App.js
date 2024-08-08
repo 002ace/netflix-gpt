@@ -1,11 +1,13 @@
 
-import './App.css';
+
+import Body from './components/Body';
 
 function App() {
   return (
-    <div className="bg-slate-950  text-yellow-200">
-     
-        Now we are going to build  gpt
+    <div className="">
+      
+        <Body/>
+       
     </div>
   );
 }
