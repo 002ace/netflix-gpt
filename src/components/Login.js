@@ -1,14 +1,36 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Header from './Header';
+import checkValidateData from '../utils/validate';
 
 const Login = () => {
-  
-      const[isLogin , setLogIn] =  useState(true);
-     
-    const handleLogIn =()=>{
-          setLogIn(!isLogin);
-    }
+  const [isLogin, setLogIn] = useState(true);
+  const [isMessage, setMessage] = useState('');
 
+  const email = useRef(null);
+  const password = useRef(null);
+  const name = useRef(null);
+
+  const handleButtonClick = () => {
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
+    const nameValue = name.current ? name.current.value : '';
+
+    const message = isLogin 
+      ? checkValidateData(emailValue, passwordValue) 
+      : checkValidateData(emailValue, passwordValue, nameValue);
+    
+    // Log form values
+    console.log('Name:', nameValue);
+    console.log('Email:', emailValue);
+    console.log('Password:', passwordValue);
+    console.log('Validation Message:', message);
+
+    setMessage(message);
+  }
+
+  const handleLogIn = () => {
+    setLogIn(!isLogin);
+  }
 
   return (
     <div>
@@ -22,34 +44,39 @@ const Login = () => {
         />
 
         {/* Centered Form */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <form className="bg-black bg-opacity-75 p-8 rounded-lg flex flex-col w-1/4">
-            <p className='text-white  text-3xl font-semibold  mb-4'> {isLogin ? "Login" : "SignUp"}</p>
+        <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+          <form className="bg-black bg-opacity-75 p-8 rounded-lg flex flex-col w-full max-w-xs h-auto max-h-96" onSubmit={(e) => e.preventDefault()}>
+            <p className='text-white text-3xl font-semibold mb-4'>{isLogin ? "Sign In" : "Sign Up"}</p>
             {
-                 !isLogin && (
-                    <input 
-                    type="text" 
-                    placeholder="Enter name" 
-                    className="mb-4 p-2 rounded bg-slate-900 text-white"
-                    
-                  />
-
-                 )
+              !isLogin && (
+                <input 
+                  ref={name}
+                  type="text" 
+                  placeholder="Enter name" 
+                  className="mb-4 p-2 rounded bg-slate-900 text-white"
+                />
+              )
             }
             <input 
+              ref={email}
               type="text" 
               placeholder="Enter email" 
               className="mb-4 p-2 rounded bg-slate-900 text-white"
-              
             />
             <input 
+              ref={password}
               type="password" 
               placeholder="Password" 
-              className="mb-4 p-2 rounded text-white  bg-slate-900"
+              className="mb-4 p-2 rounded text-white bg-slate-900"
             />
-            <button className="p-2 bg-red-600 text-white rounded">Submit</button>
-
-            <p  className='text-gray-400 mt-8 text-sm cursor-pointer'  onClick={handleLogIn}> {isLogin ? "New to Netflix ? Sign up now" : "Already exist ? Sign in"} </p>
+            <p className='text-red-700 text-sm font-bold mb-4'>{isMessage}</p>
+            <button className="p-2 bg-red-600 text-white rounded hover:bg-red-700" onClick={handleButtonClick}>
+              {isLogin ? "Sign In" : "Sign Up"}
+            </button>
+            
+            <p className='text-gray-400 mt-5 text-sm cursor-pointer ' onClick={handleLogIn}>
+              {isLogin ? "New to Netflix? Sign up now" : "Already have an account? Sign in"}
+            </p>
           </form>
         </div>
       </div>
