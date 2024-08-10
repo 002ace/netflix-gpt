@@ -1,6 +1,12 @@
 # Netflix gpt 
 -- install react app 
 -- configure tailwind 
+-- biuild form 
+--set up firebase
+--build signout feture 
+--signin feature 
+--redux
+
 
 # Features 
  -- logIn / Signup (authentication)

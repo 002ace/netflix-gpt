@@ -1,8 +1,16 @@
 import React, { useRef, useState } from 'react';
 import Header from './Header';
 import checkValidateData from '../utils/validate';
+import { auth } from '../utils/firbase'; // Make sure this path is correct
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+// Email: san@gmail.com
+// Login.js:28 Password: Sant#123
+
 
 const Login = () => {
+  const navigate =  useNavigate()
   const [isLogin, setLogIn] = useState(true);
   const [isMessage, setMessage] = useState('');
 
@@ -20,12 +28,53 @@ const Login = () => {
       : checkValidateData(emailValue, passwordValue, nameValue);
     
     // Log form values
-    console.log('Name:', nameValue);
-    console.log('Email:', emailValue);
-    console.log('Password:', passwordValue);
-    console.log('Validation Message:', message);
-
+    console.log('Name:', nameValue);console.log('Email:', emailValue); console.log('Password:', passwordValue);console.log('Validation Message:', message);
     setMessage(message);
+    if(message) return ;
+      
+    if(!isLogin)
+    {  
+          
+    
+      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed up 
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browse")
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setMessage(errorCode+"-"+errorMessage)
+          // ..
+        });
+         
+    
+
+    }
+    else
+    {   
+      signInWithEmailAndPassword(auth, emailValue, passwordValue)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        navigate("/browse")
+        // ...
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setMessage(errorCode + "-" + errorMessage)
+      });
+    
+
+    }
+   
+
+
   }
 
   const handleLogIn = () => {
@@ -85,3 +134,4 @@ const Login = () => {
 };
 
 export default Login;
+
