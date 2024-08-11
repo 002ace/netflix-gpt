@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './Header'
 import { auth } from '../utils/firbase'
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import useNowPlayingMovies from '../hooks/useNowPlayingMovies';
+
 
 
 const Browse = () => {
-   ;
+    useNowPlayingMovies();
   const navigate =  useNavigate()
+ 
+
 
 
   const handleSignout =()=>{
@@ -22,6 +26,8 @@ const Browse = () => {
     
 
   }
+
+
   return (
     <div className="flex   justify-between p-4 bg-gradient-to-b from-black   text-white">
       <Header /> 

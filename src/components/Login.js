@@ -3,14 +3,14 @@ import Header from './Header';
 import checkValidateData from '../utils/validate';
 import { auth } from '../utils/firbase'; // Make sure this path is correct
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+
 
 // Email: san@gmail.com
 // Login.js:28 Password: Sant#123
 
 
 const Login = () => {
-  const navigate =  useNavigate()
+ 
   const [isLogin, setLogIn] = useState(true);
   const [isMessage, setMessage] = useState('');
 
@@ -41,7 +41,7 @@ const Login = () => {
           // Signed up 
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse")
+      
           // ...
         })
         .catch((error) => {
@@ -60,7 +60,7 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        navigate("/browse")
+     
         // ...
         console.log(user);
       })
