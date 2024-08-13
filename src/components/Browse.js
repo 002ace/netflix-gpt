@@ -4,6 +4,7 @@ import { auth } from '../utils/firbase'
 import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import useNowPlayingMovies from '../hooks/useNowPlayingMovies';
+import MainContainer from './MainContainer';
 
 
 
@@ -29,13 +30,19 @@ const Browse = () => {
 
 
   return (
-    <div className="flex   justify-between p-4 bg-gradient-to-b from-black   text-white">
+
+    <div>
+       <div className="flex   justify-between p-4 bg-gradient-to-b from-black   text-white">
       <Header /> 
       <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4
       " onClick={handleSignout}>
         Sign out
       </button>
+     
+        </div>
+        <MainContainer/>
     </div>
+   
   
   )
 }
