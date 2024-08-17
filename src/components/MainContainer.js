@@ -1,26 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import VideoContainer from './VideoContainer';
 import VideoTitle from './VideoTitle';
-import SecondaryContainer from './SecondaryContainer';
-
+import VideoContainer from './VideoContainer';
 
 const MainContainer = () => {
-  
-      const movie  = useSelector((state) => state.movies?.nowPlayingMovies)
-      if(!movie) return ;
-      const mainMovie = movie[0] ; 
-      console.log(mainMovie)
+    const movies =  useSelector((state)=>state.movies?.nowPlayingMovies)
+    // console.log('main-container' , movies);
+    if(!movies) return ;
+    const movieData =  movies[0];
 
-      const {original_title , overview , id} = mainMovie ;
-     
-        
+    const {original_title ,  overview , id } =  movieData ; 
 
   return (
     <div>
-           <VideoContainer  movieId = {id}/>
-           <VideoTitle   title = {original_title }  overview = {overview}/>
-           <SecondaryContainer/>
+        <VideoTitle   title = {original_title} view = {overview}/>
+        <VideoContainer   movieId = {id}   title = {original_title} view = {overview}/>
+        
+
     </div>
   )
 }

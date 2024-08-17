@@ -1,55 +1,82 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import {  onAuthStateChanged } from "firebase/auth";
-import { auth } from '../utils/firbase';
-import { addUser ,removeUser } from '../utils/userSlice'
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
-const Header = () => {
-  const dispatch =  useDispatch();
-  const navigate =  useNavigate()
-  useEffect(()=>{
-    const unSubscribe =  onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const {uid ,email ,displayName }= user;
-        console.log('User:', user);
-        dispatch(addUser({uid:uid , displayName:displayName , email:email}))
-        navigate("/browse");
 
-        // ...
-      } else {
-        // User is signed out
-        dispatch(removeUser());
-        navigate("/login");
-        // ...
+  import React from 'react'
+  import  {LOGO} from '../utils/constant'
+  import { useDispatch, useSelector } from 'react-redux'
+  import {  onAuthStateChanged } from "firebase/auth";
+  import { auth } from '../utils/firbase';
+  import { addUser ,removeUser } from '../utils/userSlice'
+  import { useNavigate } from 'react-router-dom';
+  import { useEffect } from 'react';
+  import { signOut } from "firebase/auth";
+  
+  const Header = () => {
+    const dispatch =  useDispatch();
+    const navigate =  useNavigate()
+    const user = useSelector((store)=>store.user)
+  
+    useEffect(()=>{
+      const unSubscribe =  onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/auth.user
+          const {uid ,email ,displayName }= user;
+          console.log('User:', user);
+          dispatch(addUser({uid:uid , displayName:displayName , email:email}))
+          navigate("/browse");
+  
+          // ...
+        } else {
+          // User is signed out
+          dispatch(removeUser());
+          navigate("/");
+          // ...
+        }
+      });
+      
+       //unsubscribe  when component is unmount 
+      return () => unSubscribe()
+  
+    } , [])
+
+    const handleSignout =()=>{
+      signOut(auth).then(() => {
+       
+        navigate("/")
+  
+      }).catch((error) => {
+        // An error happened.
+        navigate("/error")
+      }); 
+      
+  
+    }
+  
+
+       return (
+      // const dispatch =  useDispatch();
+       <div className="fixed  w-screen bg-gradient-to-b from-black to-transparent px-8 py-4 z-50 flex justify-between items-center">
+      <img
+        className="w-36 md:w-44"
+        src={LOGO}
+        alt="netflix-logo"
+      />
+
+      {user && (
+            < button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4
+            " onClick={handleSignout}>
+              Sign out
+            </button>
+      )
+          
       }
-    });
-    
-     //unsubscribe  when component is unmount 
-    return () => unSubscribe()
-
-  } , [])
-
-
-  
-    
-
-  
-
-  return (
-    <div  className=''  >
-        <img src='https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png'
-          alt='logo'
-          className='absolute  w-44  ml-10 bg-gradient-to-b  from-black z-10 -mt-1 '  
-        />
+     
     </div>
+    )
+  }
+  
+  export default Header
     
-    
-    
-  )
-}
 
-export default Header
+  
+
