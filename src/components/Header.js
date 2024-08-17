@@ -9,6 +9,7 @@
   import { useNavigate } from 'react-router-dom';
   import { useEffect } from 'react';
   import { signOut } from "firebase/auth";
+  import { toggleGptSearch } from '../utils/gptSlice';
   
   const Header = () => {
     const dispatch =  useDispatch();
@@ -40,6 +41,7 @@
     } , [])
 
     const handleSignout =()=>{
+
       signOut(auth).then(() => {
        
         navigate("/")
@@ -51,27 +53,68 @@
       
   
     }
+
+    const handleGpt =()=>{
+
+      dispatch(toggleGptSearch())
+        
+    }
   
 
        return (
       // const dispatch =  useDispatch();
-       <div className="fixed  w-screen bg-gradient-to-b from-black to-transparent px-8 py-4 z-50 flex justify-between items-center">
-      <img
-        className="w-36 md:w-44"
-        src={LOGO}
-        alt="netflix-logo"
-      />
+    //    <div className="fixed  w-screen bg-gradient-to-b from-black to-transparent px-8 py-4 z-50 flex justify-between items-center">
+    //   <img
+    //     className="w-36 md:w-44"
+    //     src={LOGO}
+    //     alt="netflix-logo"
+    //   />
 
-      {user && (
-            < button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4
-            " onClick={handleSignout}>
-              Sign out
-            </button>
-      )
+    //   {user && (
+
+    //          <div className='flex space-x-3'>
+    //           <button className='bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-4'
+    //           onClick={handleGpt}
+    //           >
+    //             GptSearch 
+    //           </button>
+                
+    //         < button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4
+    //         " onClick={handleSignout}>
+    //           Sign out
+    //         </button>
+    //          </div>
+            
+    //   )
           
-      }
+    //   }
      
-    </div>
+    // </div>
+    <div className="fixed w-screen bg-gradient-to-b from-black to-transparent px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 z-50 flex justify-between items-center">
+    <img
+      className="w-24 sm:w-28 md:w-36 lg:w-44"
+      src={LOGO}
+      alt="netflix-logo"
+    />
+  
+    {user && (
+      <div className="flex space-x-2 sm:space-x-3">
+        <button
+          className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded text-sm sm:text-base mt-2 sm:mt-4"
+          onClick={handleGpt}
+        >
+          GptSearch
+        </button>
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded text-sm sm:text-base mt-2 sm:mt-4"
+          onClick={handleSignout}
+        >
+          Sign out
+        </button>
+      </div>
+    )}
+  </div>
+  
     )
   }
   
