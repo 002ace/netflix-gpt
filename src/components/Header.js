@@ -59,9 +59,10 @@
       dispatch(toggleGptSearch())
         
     }
-  
+    const showGptSearch  = useSelector((state)=>state.gpt.showGptSearch)
 
        return (
+        
       // const dispatch =  useDispatch();
     //    <div className="fixed  w-screen bg-gradient-to-b from-black to-transparent px-8 py-4 z-50 flex justify-between items-center">
     //   <img
@@ -102,8 +103,8 @@
         <button
           className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded text-sm sm:text-base mt-2 sm:mt-4"
           onClick={handleGpt}
-        >
-          GptSearch
+        >{showGptSearch ? "Home page" : " GptSearch"}
+         
         </button>
         <button
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded text-sm sm:text-base mt-2 sm:mt-4"
